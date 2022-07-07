@@ -3,8 +3,8 @@ import { HeroContent } from './HeroContent';
 
 export const Hero = () => {
     return (
-        <div className='flex justify-center items-center h-screen overflow-hidden'>
-            <div className="flex h-4/6 rounded w-3/4 gap-2">
+        <div className='flex justify-center items-center h-screen w-screen overflow-hidden relative z-20'>
+            <div className="flex h-4/6 rounded lg:w-3/4 w-11/12 gap-2">
                 <ImageHero />
                 <HeroContent />
             </div>
