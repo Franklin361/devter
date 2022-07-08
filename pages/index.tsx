@@ -1,26 +1,21 @@
 import type { NextPage } from 'next'
-
 import { GenericLayout } from '../layout'
-import { Hero, Loading } from '../components'
-import { useAuthContext } from '../hooks'
-import { logoutFirebase } from '../firebase'
+import { Hero } from '../components'
+import { useAuthenticated } from '../hooks'
 
-const Home: NextPage = () => {
-  const { user, status } = useAuthContext()
+const LoginPage: NextPage = () => {
+  const { handleGoHome, isAuth } = useAuthenticated()
 
-  if (status === 'checking') return <Loading />
+  if (isAuth) {
+    handleGoHome()
+    return null
+  }
 
   return (
-    <GenericLayout title="Devter | Home">
-      {!user ? (
-        <Hero />
-      ) : (
-        <button onClick={logoutFirebase} className="relative z-10 btn">
-          logout
-        </button>
-      )}
+    <GenericLayout title="Devter | Log in">
+      <Hero />
     </GenericLayout>
   )
 }
 
-export default Home
+export default LoginPage
