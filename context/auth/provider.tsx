@@ -1,49 +1,47 @@
-import { createContext, useReducer, useEffect } from 'react';
-import { onAuthStateHasChanged, singInWithGithub } from "../../firebase";
-import { authReducer } from "./";
+import { createContext, useReducer, useEffect } from 'react'
+import { onAuthStateHasChanged, singInWithGithub } from '../../firebase'
+import { authReducer } from './'
 
-export interface User {
-  displayName:string;
-  email:string;
-  photoURL:string;
-  uid:string;
+export type User = {
+  displayName: string
+  email: string
+  photoURL: string
+  uid: string
 }
 
 type TypeStatus = 'authenticated' | 'checking' | 'not-authenticated'
 
-
-export interface AuthState {
-  user: User | null,
-  status: TypeStatus,
+export type AuthState = {
+  user: User | null
+  status: TypeStatus
 }
 
-interface AuthStateContext extends AuthState{
-  handleLogin: () => void;
-}
+type AuthStateContext = {
+  handleLogin: () => void
+} & AuthState
 
 const initalState: AuthState = {
   user: null,
   status: 'checking'
 }
 
-export const AuthContext = createContext({} as AuthStateContext);
+export const AuthContext = createContext({} as AuthStateContext)
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-
   const [user, dispatch] = useReducer(authReducer, initalState)
-  
-  
+
   useEffect(() => {
-    onAuthStateHasChanged(dispatch);
+    onAuthStateHasChanged(dispatch)
   }, [])
 
-  const handleLogin = async(  ) => {
-    const { ok, ...rest } = await singInWithGithub();
-    if(ok) dispatch({
-      type: 'login',
-      payload: {...rest as User}
-    })
-    else dispatch({ type: 'logout' });
+  const handleLogin = async () => {
+    const { ok, ...rest } = await singInWithGithub()
+    if (ok) {
+      dispatch({
+        type: 'login',
+        payload: { ...(rest as User) }
+      })
+    } else dispatch({ type: 'logout' })
   }
 
   return (
@@ -57,5 +55,3 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     </AuthContext.Provider>
   )
 }
-
-
