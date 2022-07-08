@@ -5,3 +5,4 @@ tailwind.config.js
 next.config.js
 styles/globals.css
 postcss.config.js
+.eslintcache
