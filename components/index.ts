@@ -1,2 +1,5 @@
 export * from './hero'
 export * from './Loading'
+export * from './home'
+export * from './post'
+export * from './FormAddPost'
