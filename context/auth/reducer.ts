@@ -1,6 +1,4 @@
-import { AuthState, User } from './provider'
-
-export type TypeAction = { type: 'login'; payload: User } | { type: 'logout' }
+import { AuthState, TypeAction } from '../../interfaces'
 
 export const authReducer = (
   state: AuthState,
@@ -19,7 +17,11 @@ export const authReducer = (
         user: null,
         status: 'not-authenticated'
       }
-
+    case 'checking':
+      return {
+        ...state,
+        status: 'checking'
+      }
     default:
       return { ...state }
   }

@@ -1,24 +1,8 @@
 import { createContext, useReducer, useEffect } from 'react'
+import { Loading } from '../../components'
 import { onAuthStateHasChanged, singInWithGithub } from '../../firebase'
 import { authReducer } from './'
-
-export type User = {
-  displayName: string
-  email: string
-  photoURL: string
-  uid: string
-}
-
-type TypeStatus = 'authenticated' | 'checking' | 'not-authenticated'
-
-export type AuthState = {
-  user: User | null
-  status: TypeStatus
-}
-
-type AuthStateContext = {
-  handleLogin: () => void
-} & AuthState
+import { AuthState, AuthStateContext } from '../../interfaces'
 
 const initalState: AuthState = {
   user: null,
@@ -35,14 +19,11 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   }, [])
 
   const handleLogin = async () => {
-    const { ok, ...rest } = await singInWithGithub()
-    if (ok) {
-      dispatch({
-        type: 'login',
-        payload: { ...(rest as User) }
-      })
-    } else dispatch({ type: 'logout' })
+    dispatch({ type: 'checking' })
+    await singInWithGithub()
   }
+
+  if (user.status === 'checking') return <Loading />
 
   return (
     <AuthContext.Provider
