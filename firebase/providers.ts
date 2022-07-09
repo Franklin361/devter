@@ -88,16 +88,9 @@ export const getPosts = async (uid: string) => {
   const posts: PostResponse[] = []
 
   docs.forEach(doc => {
-    const date = new Date(
-      ((doc.data() as PostResponse).createdAt as any).seconds! * 1000
-    )
-    const normalizedCreatedAt = new Intl.DateTimeFormat('es-ES', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: 'numeric'
-    }).format(date)
+    const normalizedCreatedAt = +(
+      doc.data() as { createdAt: Timestamp }
+    ).createdAt.toDate()
 
     posts.push({
       id: doc.id,
@@ -109,5 +102,5 @@ export const getPosts = async (uid: string) => {
     })
   })
 
-  return posts
+  return posts.sort((a, b) => -a.createdAt + b.createdAt)
 }

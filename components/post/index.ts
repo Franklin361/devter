@@ -1,3 +1,7 @@
 export * from './LayoutPosts'
 export * from './Post'
 export * from './NoPosts'
+export * from './CreatedAtPost'
+export * from './ContentPost'
+export * from './HeaderPost'
+export * from './FooterPost'

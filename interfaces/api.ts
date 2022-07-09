@@ -13,5 +13,5 @@ export interface PostResponse {
   content: string
   likesCount: number
   sharedCount: number
-  createdAt: string
+  createdAt: number
 }
