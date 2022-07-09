@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-type Props = {
+interface Props {
   children: JSX.Element | JSX.Element[]
   title?: string
 }

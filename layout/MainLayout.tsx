@@ -8,10 +8,12 @@ interface Props {
 
 export const MainLayout = ({ children, titleNav }: Props) => {
   return (
-    <main className="flex flex-col flex-auto min-h-screen max-w-4xl mx-auto">
+    <div className="h-screen flex flex-col max-w-4xl mx-auto">
       <HeaderHome title={titleNav ?? 'Inicio'} />
-      <section className="flex-1 px-7 pt-7 ">{children}</section>
+      <main className="flex-1 justify-center items-center flex flex-col pt-5">
+        {children}
+      </main>
       <NavHome />
-    </main>
+    </div>
   )
 }

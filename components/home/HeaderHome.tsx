@@ -11,7 +11,7 @@ export const HeaderHome = ({ title }: { title: string }) => {
   const handleLogout = () => logoutFirebase()
 
   return (
-    <header className="bg-neutral shadow-xl shadow-black/40 p-5 flex items-center justify-between sticky top-0 md:gap-0 gap-5  sm:flex-row flex-col">
+    <header className="bg-neutral shadow-xl shadow-black/40 p-5 flex items-center justify-between sticky top-0 md:gap-0 gap-5  sm:flex-row flex-col max-w-4xl">
       <div className="flex items-center gap-2 md:gap-5">
         <img
           src={user ? user.photoURL : avatar}

@@ -12,7 +12,7 @@ export const DevPost = ({
   createdAt
 }: PostResponse) => {
   return (
-    <div className="border border-gray-500 p-5 rounded-md bg-black/70 mb-7 max-w-3xl mx-auto">
+    <div className="border border-gray-500 p-5 rounded-md bg-black/70 max-w-xl mx-auto w-full my-5">
       <header className="flex items-center gap-5">
         <img src={photoURL} alt="profile" width={35} className="rounded-full" />
         <h5 className="font-bold ">{displayName}</h5>

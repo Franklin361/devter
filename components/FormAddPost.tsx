@@ -28,7 +28,10 @@ export const FormAddPost = () => {
     if (res) router.push('/home')
   }
   return (
-    <form className="flex flex-col gap-5 items-start" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col gap-5 items-start w-full max-w-2xl"
+      onSubmit={handleSubmit}
+    >
       <textarea
         disabled={loading}
         placeholder="What's happening?"
@@ -37,7 +40,7 @@ export const FormAddPost = () => {
         value={form}
       />
       <button
-        className="btn btn-primary gap-4 md:w-auto w-full"
+        className="btn btn-primary gap-4  md:w-auto w-full"
         disabled={form.length === 0 || loading}
       >
         <span>Add Post</span>
