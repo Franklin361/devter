@@ -1,46 +1,92 @@
 import React, { useState } from 'react'
-import { BsArrowBarLeft, BsPlusCircle } from 'react-icons/bs'
-import { addPost } from '../firebase'
-import { useAuthContext } from '../hooks'
+import { BsArrowBarLeft, BsPlusCircle, BsXCircle } from 'react-icons/bs'
+import { addPost, uploadImage } from '../firebase'
+import { useAuthContext, useDragAndDrop } from '../hooks'
 import { useRouter } from 'next/router'
 
+type TextAreaEvent = React.ChangeEvent<HTMLTextAreaElement>
+type FormEvent = React.FormEvent<HTMLFormElement>
+// TODO: REFACTOR COMPONENT
+// TODO: REFACTOR LOGIC
 export const FormAddPost = () => {
   const [form, setForm] = useState('')
   const [loading, setloading] = useState(false)
+  const { drag, fileObj, ...events } = useDragAndDrop()
   const router = useRouter()
   const { user } = useAuthContext()
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    setForm(e.target.value)
-
   const handleCancel = () => router.back()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = (e: TextAreaEvent) => setForm(e.target.value)
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     setloading(() => true)
+
+    let isSuccessImageUploaded = true
+    let imageURL: string = ''
+
+    if (fileObj) {
+      const res = await uploadImage(fileObj)
+      isSuccessImageUploaded = res.ok
+      imageURL = res.image ?? ''
+    }
 
     const res = await addPost({
       content: form,
       displayName: user?.displayName!,
       uid: user?.uid!,
-      photoURL: user?.photoURL!
+      photoURL: user?.photoURL!,
+      ...(fileObj ? { img: imageURL } : {})
     })
 
-    if (res) router.push('/home')
+    setloading(() => false)
+
+    if (isSuccessImageUploaded && res) {
+      router.push('/home')
+    }
   }
+
   return (
     <form
       className="flex flex-col gap-5 items-start w-full max-w-2xl mx-auto"
       onSubmit={handleSubmit}
     >
-      <textarea
-        disabled={loading}
-        placeholder="What's happening?"
-        className="h-56 text-xl resize-none bg-transparent border border-gray-500 rounded-lg p-5 focus:outline-none w-full"
-        onChange={handleChange}
-        value={form}
-      />
+      <div
+        className={`h-56 flex flex-col border w-full border-gray-500 rounded-lg ${
+          drag === 1 ? 'bg-black/80' : ''
+        } ${fileObj ? 'h-72' : 'h-56'}`}
+      >
+        <textarea
+          disabled={loading}
+          placeholder="What's happening?"
+          className="text-xl resize-none bg-transparent focus:outline-none flex-1 p-5"
+          onChange={handleChange}
+          value={form}
+          onDragEnter={events.handleDragEnter}
+          onDragLeave={events.handleDragLeave}
+          onDrop={events.handleDrop}
+        />
+        <div className={`${fileObj ? 'block p-4' : 'hidden'}`}>
+          {fileObj && (
+            <div className="relative w-3/12 h-28">
+              <button
+                className="btn btn-circle bg-black/70 btn-md absolute -right-5 -top-5"
+                type="button"
+                onClick={events.clearFiles}
+              >
+                <BsXCircle className="text-2xl" />
+              </button>
+              <img
+                className="w-full h-full object-cover align-top rounded-md"
+                src={URL.createObjectURL(fileObj).toString()}
+                alt={fileObj.name}
+              />
+            </div>
+          )}
+        </div>
+      </div>
       <div className="flex justify-between w-full md:flex-row flex-col gap-10">
         <button
           type="submit"

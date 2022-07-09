@@ -14,4 +14,5 @@ export interface PostResponse {
   likesCount: number
   sharedCount: number
   createdAt: number
+  img?: string
 }

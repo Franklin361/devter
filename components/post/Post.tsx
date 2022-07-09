@@ -7,12 +7,13 @@ export const DevPost = ({
   photoURL,
   likesCount,
   sharedCount,
-  createdAt
+  createdAt,
+  img
 }: PostResponse) => {
   return (
-    <div className="border border-gray-500 p-5 rounded-md bg-black/70 max-w-xl mx-auto w-full mb-5">
+    <div className="border border-gray-500 p-5 rounded-md bg-black/70 max-w-xl mx-auto w-full mb-10 shadow-2xl shadow-black">
       <HeaderPost displayName={displayName} photoURL={photoURL} />
-      <ContentPost content={content} />
+      <ContentPost content={content} img={img} />
       <CreatedAtPost createdAt={createdAt} />
       <FooterPost likesCount={likesCount} sharedCount={sharedCount} />
     </div>

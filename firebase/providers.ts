@@ -1,3 +1,4 @@
+import { Dispatch } from 'react'
 import {
   GithubAuthProvider,
   onAuthStateChanged,
@@ -10,9 +11,9 @@ import {
   setDoc,
   Timestamp
 } from 'firebase/firestore/lite'
-import { Dispatch } from 'react'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { FirebaseAuth, FirebaseDB, FirebaseStorage } from './'
 import { PostResponse, TypeAction, User } from '../interfaces'
-import { FirebaseAuth, FirebaseDB } from './'
 
 const githubProvider = new GithubAuthProvider()
 
@@ -52,6 +53,7 @@ export const logoutFirebase = async () => await FirebaseAuth.signOut()
 
 interface PropsAddPost extends Pick<User, 'uid' | 'displayName' | 'photoURL'> {
   content: string
+  img?: string
 }
 
 interface Post extends Record<string, any> {
@@ -70,7 +72,7 @@ export const addPost = async ({ content, uid, ...user }: PropsAddPost) => {
       sharedCount: 0,
       createdAt: Timestamp.fromDate(new Date())
     }
-
+    console.log({ newPost })
     const newDoc = doc(collection(FirebaseDB, `${uid}`))
     await setDoc(newDoc, newPost)
     newPost.id = newDoc.id
@@ -96,11 +98,33 @@ export const getPosts = async (uid: string) => {
       id: doc.id,
       ...(doc.data() as Pick<
         PostResponse,
-        'content' | 'displayName' | 'likesCount' | 'photoURL' | 'sharedCount'
+        | 'content'
+        | 'displayName'
+        | 'likesCount'
+        | 'photoURL'
+        | 'sharedCount'
+        | 'img'
       >),
       createdAt: normalizedCreatedAt
     })
   })
 
   return posts.sort((a, b) => -a.createdAt + b.createdAt)
+}
+
+export const uploadImage = async (file: File) => {
+  try {
+    const storageRef = ref(FirebaseStorage, `/images/${file.name}`)
+    await uploadBytes(storageRef, file)
+    const image = await getDownloadURL(storageRef)
+    return {
+      ok: true,
+      image
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      ok: false
+    }
+  }
 }

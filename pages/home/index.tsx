@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { ButtonFloat, LayoutPosts } from '../../components'
+import { LayoutPosts } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { MainLayout } from '../../layout'
 import { useEffect, useState } from 'react'
@@ -28,7 +28,6 @@ const HomePage: NextPage = () => {
       ) : (
         <LayoutPosts data={data} />
       )}
-      <ButtonFloat />
     </MainLayout>
   )
 }

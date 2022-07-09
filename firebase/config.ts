@@ -1,5 +1,6 @@
 import { FirebaseOptions, initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
+import { getStorage } from 'firebase/storage'
 import { getFirestore } from 'firebase/firestore/lite'
 
 const firebaseConfig: FirebaseOptions = {
@@ -16,3 +17,4 @@ const firebaseConfig: FirebaseOptions = {
 export const FirebaseApp = initializeApp(firebaseConfig)
 export const FirebaseAuth = getAuth(FirebaseApp)
 export const FirebaseDB = getFirestore(FirebaseApp)
+export const FirebaseStorage = getStorage(FirebaseApp)
