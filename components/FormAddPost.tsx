@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BsPlusCircle } from 'react-icons/bs'
+import { BsArrowBarLeft, BsPlusCircle } from 'react-icons/bs'
 import { addPost } from '../firebase'
 import { useAuthContext } from '../hooks'
 import { useRouter } from 'next/router'
@@ -12,6 +12,8 @@ export const FormAddPost = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setForm(e.target.value)
+
+  const handleCancel = () => router.back()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -29,7 +31,7 @@ export const FormAddPost = () => {
   }
   return (
     <form
-      className="flex flex-col gap-5 items-start w-full max-w-2xl"
+      className="flex flex-col gap-5 items-start w-full max-w-2xl mx-auto"
       onSubmit={handleSubmit}
     >
       <textarea
@@ -39,13 +41,25 @@ export const FormAddPost = () => {
         onChange={handleChange}
         value={form}
       />
-      <button
-        className="btn btn-primary gap-4  md:w-auto w-full"
-        disabled={form.length === 0 || loading}
-      >
-        <span>Add Post</span>
-        <BsPlusCircle className="text-xl" />
-      </button>
+      <div className="flex justify-between w-full md:flex-row flex-col gap-10">
+        <button
+          type="submit"
+          className="btn btn-primary gap-4  md:w-auto w-full"
+          disabled={form.length === 0 || loading}
+        >
+          <span>Add Post</span>
+          <BsPlusCircle className="text-xl" />
+        </button>
+        <button
+          type="button"
+          onClick={handleCancel}
+          className="btn btn-info btn-outline gap-4  md:w-auto w-full"
+          disabled={loading}
+        >
+          <span>Cancel</span>
+          <BsArrowBarLeft className="text-xl" />
+        </button>
+      </div>
       {loading && (
         <div className="fixed z-50 w-screen h-screen top-0 left-0 bg-black/50 flex justify-center items-center">
           <p className="text-xl text-center w-full text-info">

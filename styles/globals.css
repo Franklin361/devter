@@ -17,6 +17,7 @@
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
+  overflow: hidden;
 }
 .font-secondary{
   font-family: 'Lobster', cursive;
@@ -24,4 +25,15 @@ body {
 
 .triangle{
   clip-path: polygon(0 0, 0% 100%, 100% 100%);
+}
+.main{
+  padding-top: 45px;
+  padding-bottom: 15px;
+  overflow: scroll;
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.main::-webkit-scrollbar{
+  width: 0;
 }
