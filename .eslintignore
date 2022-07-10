@@ -32,5 +32,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 .eslintcache
-
-serviceAccountKey.json
+.env

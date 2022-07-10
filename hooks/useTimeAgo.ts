@@ -10,7 +10,6 @@ const DATE_UNITS: [UNITS, number][] = [
 ]
 
 const getDateDiffs = (timestamp: number) => {
-  console.log('getDateDiffs')
   const now = Date.now()
   const elapsed = (timestamp - now) / 1000
 

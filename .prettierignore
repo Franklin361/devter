@@ -6,4 +6,4 @@ next.config.js
 styles/globals.css
 postcss.config.js
 .eslintcache
-serviceAccountKey.json
+.env

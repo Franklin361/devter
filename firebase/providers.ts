@@ -7,10 +7,15 @@ import {
 import {
   collection,
   doc,
+  DocumentData,
   getDocs,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
   setDoc,
   Timestamp
 } from 'firebase/firestore/lite'
+import { onSnapshot } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { FirebaseAuth, FirebaseDB, FirebaseStorage } from './'
 import { PostResponse, TypeAction, User } from '../interfaces'
@@ -83,32 +88,46 @@ export const addPost = async ({ content, ...user }: PropsAddPost) => {
   }
 }
 
-export const getPosts = async () => {
-  const collectionRef = collection(FirebaseDB, 'posts')
-  const docs = await getDocs(collectionRef)
-  const posts: PostResponse[] = []
+const mapDocs = (docs: QueryDocumentSnapshot<DocumentData>[]) => {
+  return docs.map(doc => {
+    const data = doc.data() as Pick<
+      PostResponse,
+      | 'content'
+      | 'displayName'
+      | 'likesCount'
+      | 'photoURL'
+      | 'sharedCount'
+      | 'img'
+    >
 
-  docs.forEach(doc => {
     const normalizedCreatedAt = +(
       doc.data() as { createdAt: Timestamp }
     ).createdAt.toDate()
 
-    posts.push({
+    return {
+      ...data,
       id: doc.id,
-      ...(doc.data() as Pick<
-        PostResponse,
-        | 'content'
-        | 'displayName'
-        | 'likesCount'
-        | 'photoURL'
-        | 'sharedCount'
-        | 'img'
-      >),
       createdAt: normalizedCreatedAt
-    })
+    }
   })
+}
 
-  return posts.sort((a, b) => -a.createdAt + b.createdAt)
+export const getPosts = async () => {
+  const q = query(collection(FirebaseDB, 'posts'), orderBy('createdAt', 'desc'))
+
+  const { docs } = await getDocs(q)
+
+  return mapDocs(docs)
+}
+
+export const listenLatestPosts = (
+  callback: (posts: PostResponse[]) => void
+) => {
+  const q = query(collection(FirebaseDB, 'posts'), orderBy('createdAt', 'desc'))
+  return onSnapshot(q, ({ docs }) => {
+    const posts = mapDocs(docs)
+    callback(posts)
+  })
 }
 
 export const uploadImage = async (file: File) => {

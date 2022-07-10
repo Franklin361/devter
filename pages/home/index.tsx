@@ -1,9 +1,11 @@
 import { NextPage } from 'next'
+import { Unsubscribe } from 'firebase/firestore'
+
 import { LayoutPosts } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { MainLayout } from '../../layout'
 import { useEffect, useState } from 'react'
-import { getPosts } from '../../firebase'
+import { listenLatestPosts } from '../../firebase'
 import { PostResponse } from '../../interfaces'
 
 const HomePage: NextPage = () => {
@@ -11,7 +13,11 @@ const HomePage: NextPage = () => {
   const [data, setData] = useState<null | PostResponse[]>(null)
 
   useEffect(() => {
-    getPosts().then(posts => setData(posts))
+    let unsubscribe: Unsubscribe
+    if (isAuth) unsubscribe = listenLatestPosts(setData)
+    return () => {
+      unsubscribe && unsubscribe()
+    }
   }, [])
 
   if (!isAuth) {
@@ -23,7 +29,7 @@ const HomePage: NextPage = () => {
     <MainLayout>
       {data === null ? (
         <p className="font-bold text-xl text-center w-full text-info">
-          Loading data...
+          Loading latest posts...
         </p>
       ) : (
         <LayoutPosts data={data} />
