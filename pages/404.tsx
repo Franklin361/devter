@@ -1,5 +1,5 @@
 import { useAuthenticated } from '../hooks'
-
+// Cutom
 export const Custom404 = () => {
   const { handleGoHome, handleGoLogin, isAuth } = useAuthenticated()
 
