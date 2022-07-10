@@ -1,5 +1,6 @@
-import { NextApiResponse, NextApiRequest } from 'next'
 import admin from 'firebase-admin'
+import { Timestamp } from 'firebase/firestore'
+import { PostResponse } from '../interfaces/api'
 
 try {
   admin.initializeApp({
@@ -13,24 +14,21 @@ try {
 
 export const FirestoreAdmin = admin.firestore()
 
-export default async (request: NextApiRequest, response: NextApiResponse) => {
-  const { id } = request.query as { id: string }
-
+export const getSinglePost = async (
+  id: string
+): Promise<PostResponse | null> => {
   try {
     const doc = await FirestoreAdmin.collection('posts').doc(`${id}`).get()
-    const data = doc.data()
+    const data = doc.data() as PostResponse
+    const { createdAt } = doc.data() as { createdAt: Timestamp }
 
-    if (!data) return response.status(400).json({ error: 'Post no exists' })
-    const { createdAt } = data
-
-    response.status(200).json({
+    return {
       ...data,
       id: doc.id,
       createdAt: +createdAt.toDate()
-    })
+    }
   } catch (error) {
-    response.status(500).json({
-      error: (error as Error).message
-    })
+    console.log(error)
+    return null
   }
 }

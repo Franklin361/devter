@@ -3,6 +3,7 @@ import { DevPost } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { PostResponse } from '../../interfaces'
 import { MainLayout } from '../../layout'
+import { getSinglePost } from '../../utils'
 
 export const SinglePostPage: NextPage<PostResponse> = ({
   content,
@@ -15,6 +16,7 @@ export const SinglePostPage: NextPage<PostResponse> = ({
   img
 }: PostResponse) => {
   const { handleGoLogin, isAuth } = useAuthenticated()
+
   if (!isAuth) {
     handleGoLogin()
     return null
@@ -41,15 +43,9 @@ export default SinglePostPage
 
 export async function getServerSideProps(context: NextPageContext) {
   const { id } = context.query as { id: string }
-  const res = await fetch(`https://devter-361.netlify.app/api/post/${id}`)
-  if (res.status === 200) {
-    const data: PostResponse = await res.json()
-    return {
-      props: { ...data } // will be passed to the page component as props
-    }
-  }
+  const data = await getSinglePost(id)
 
   return {
-    props: {}
+    props: { ...data }
   }
 }
