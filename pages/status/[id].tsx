@@ -41,7 +41,7 @@ export default SinglePostPage
 
 export async function getServerSideProps(context: NextPageContext) {
   const { id } = context.query as { id: string }
-  const res = await fetch(`http://localhost:3000/api/post/${id}`)
+  const res = await fetch(`https://devter-361.netlify.app/api/post/${id}`)
   if (res.status === 200) {
     const data: PostResponse = await res.json()
     return {
