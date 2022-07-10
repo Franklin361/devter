@@ -1,5 +1,6 @@
 import { NextPage, NextPageContext } from 'next'
 import { DevPost } from '../../components'
+import { useAuthenticated } from '../../hooks'
 import { PostResponse } from '../../interfaces'
 import { MainLayout } from '../../layout'
 
@@ -13,6 +14,12 @@ export const SinglePostPage: NextPage<PostResponse> = ({
   sharedCount,
   img
 }: PostResponse) => {
+  const { handleGoLogin, isAuth } = useAuthenticated()
+  if (!isAuth) {
+    handleGoLogin()
+    return null
+  }
+
   return (
     <MainLayout>
       <DevPost
