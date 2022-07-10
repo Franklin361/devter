@@ -51,7 +51,7 @@ export const onAuthStateHasChanged = (dispatch: Dispatch<TypeAction>) => {
 
 export const logoutFirebase = async () => await FirebaseAuth.signOut()
 
-interface PropsAddPost extends Pick<User, 'uid' | 'displayName' | 'photoURL'> {
+interface PropsAddPost extends Pick<User, 'displayName' | 'photoURL'> {
   content: string
   img?: string
 }
@@ -63,7 +63,7 @@ interface Post extends Record<string, any> {
   createdAt: Timestamp
 }
 
-export const addPost = async ({ content, uid, ...user }: PropsAddPost) => {
+export const addPost = async ({ content, ...user }: PropsAddPost) => {
   try {
     const newPost: Post = {
       ...user,
@@ -72,8 +72,7 @@ export const addPost = async ({ content, uid, ...user }: PropsAddPost) => {
       sharedCount: 0,
       createdAt: Timestamp.fromDate(new Date())
     }
-    console.log({ newPost })
-    const newDoc = doc(collection(FirebaseDB, `${uid}`))
+    const newDoc = doc(collection(FirebaseDB, 'posts'))
     await setDoc(newDoc, newPost)
     newPost.id = newDoc.id
 
@@ -84,8 +83,8 @@ export const addPost = async ({ content, uid, ...user }: PropsAddPost) => {
   }
 }
 
-export const getPosts = async (uid: string) => {
-  const collectionRef = collection(FirebaseDB, `${uid}`)
+export const getPosts = async () => {
+  const collectionRef = collection(FirebaseDB, 'posts')
   const docs = await getDocs(collectionRef)
   const posts: PostResponse[] = []
 

@@ -7,11 +7,11 @@ import { getPosts } from '../../firebase'
 import { PostResponse } from '../../interfaces'
 
 const HomePage: NextPage = () => {
-  const { handleGoLogin, isAuth, user } = useAuthenticated()
+  const { handleGoLogin, isAuth } = useAuthenticated()
   const [data, setData] = useState<null | PostResponse[]>(null)
 
   useEffect(() => {
-    getPosts(user?.uid!).then(posts => setData(posts))
+    getPosts().then(posts => setData(posts))
   }, [])
 
   if (!isAuth) {
