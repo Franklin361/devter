@@ -36,7 +36,6 @@ export const FormAddPost = () => {
     const res = await addPost({
       content: form,
       displayName: user?.displayName!,
-      uid: user?.uid!,
       photoURL: user?.photoURL!,
       ...(fileObj ? { img: imageURL } : {})
     })
