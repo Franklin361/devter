@@ -45,7 +45,7 @@ export async function getServerSideProps(context: NextPageContext) {
   if (res.status === 200) {
     const data: PostResponse = await res.json()
     return {
-      props: { ...data } // will be passed to the page component as props
+      props: { ...data }
     }
   }
 
