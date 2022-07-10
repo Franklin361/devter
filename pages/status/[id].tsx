@@ -3,7 +3,6 @@ import { DevPost } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { PostResponse } from '../../interfaces'
 import { MainLayout } from '../../layout'
-import { getSinglePost } from '../../utils'
 
 export const SinglePostPage: NextPage<PostResponse> = ({
   content,
@@ -43,9 +42,15 @@ export default SinglePostPage
 
 export async function getServerSideProps(context: NextPageContext) {
   const { id } = context.query as { id: string }
-  const data = await getSinglePost(id)
+  const res = await fetch(`http://localhost:3000/api/post/${id}`)
+  if (res.status === 200) {
+    const data: PostResponse = await res.json()
+    return {
+      props: { ...data }
+    }
+  }
 
   return {
-    props: { ...data }
+    props: {}
   }
 }
