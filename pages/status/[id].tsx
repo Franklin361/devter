@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from 'next'
+import { NextPage } from 'next'
 import { DevPost } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { PostResponse } from '../../interfaces'
@@ -40,9 +40,20 @@ export const SinglePostPage: NextPage<PostResponse> = ({
 
 export default SinglePostPage
 
-export async function getServerSideProps(context: NextPageContext) {
-  const { id } = context.query as { id: string }
-  const res = await fetch(`/api/post/${id}`)
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: 'BelzdcdF7wTN8wLxeLLC' } }],
+    fallback: true // false or 'blocking'
+  }
+}
+
+export async function getStaticProps(context: { params: any }) {
+  const { id } = context.params as { id: string }
+
+  const dev = process.env.NODE_ENV !== 'production'
+  const server = dev ? 'http://localhost:3000' : 'https://devter.vercel.app'
+  const res = await fetch(`${server}/api/post/${id}`)
+
   if (res.status === 200) {
     const data: PostResponse = await res.json()
     return {
