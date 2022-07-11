@@ -43,7 +43,7 @@ export default SinglePostPage
 export async function getStaticPaths() {
   return {
     paths: [{ params: { id: 'BelzdcdF7wTN8wLxeLLC' } }],
-    fallback: true // false or 'blocking'
+    fallback: false // false or 'blocking'
   }
 }
 
