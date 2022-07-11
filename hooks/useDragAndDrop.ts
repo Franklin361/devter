@@ -32,12 +32,17 @@ export const useDragAndDrop = () => {
   }
   const clearFiles = () => setFileObj(null)
 
+  const handleSetFileWithoutDrag = (file: File) => {
+    setFileObj(file)
+  }
+
   return {
     handleDragEnter,
     handleDragLeave,
     handleDrop,
     drag,
     fileObj,
-    clearFiles
+    clearFiles,
+    handleSetFileWithoutDrag
   }
 }
