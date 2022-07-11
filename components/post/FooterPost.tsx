@@ -5,9 +5,8 @@ export const FooterPost = ({
   likesCount,
   sharedCount
 }: Pick<PostResponse, 'likesCount' | 'sharedCount'>) => {
-  const handleLike = () => {
-    console.log('like++')
-  }
+  const handleLike = () => console.log('like++')
+  const handleShare = () => console.log('share++')
 
   return (
     <footer className="flex justify-around items-center border-t border-gray-700 pt-5">
@@ -19,7 +18,10 @@ export const FooterPost = ({
         {/* <BsSuitHeartFill className="text-xl" /> */}
         <span className="text-xl">{likesCount}</span>
       </p>
-      <p className="flex items-center gap-5 cursor-pointer hover:text-warning">
+      <p
+        className="flex items-center gap-5 cursor-pointer hover:text-warning"
+        onClick={handleShare}
+      >
         <BsShare className="text-xl" />
         <span className="text-xl">{sharedCount}</span>
       </p>

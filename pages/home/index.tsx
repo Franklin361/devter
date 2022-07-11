@@ -1,20 +1,25 @@
+import { useEffect } from 'react'
 import { NextPage } from 'next'
+import shallow from 'zustand/shallow'
 import { Unsubscribe } from 'firebase/firestore'
 
 import { LayoutPosts } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { MainLayout } from '../../layout'
-import { useEffect, useState } from 'react'
+
 import { listenLatestPosts } from '../../firebase'
-import { PostResponse } from '../../interfaces'
+import { usePostStore } from '../../store'
 
 const HomePage: NextPage = () => {
   const { handleGoLogin, isAuth } = useAuthenticated()
-  const [data, setData] = useState<null | PostResponse[]>(null)
+  const { listPosts, addListPosts } = usePostStore(
+    ({ listPosts, addListPosts }) => ({ listPosts, addListPosts }),
+    shallow
+  )
 
   useEffect(() => {
     let unsubscribe: Unsubscribe
-    if (isAuth) unsubscribe = listenLatestPosts(setData)
+    if (isAuth) unsubscribe = listenLatestPosts(addListPosts)
     return () => {
       unsubscribe && unsubscribe()
     }
@@ -27,12 +32,12 @@ const HomePage: NextPage = () => {
 
   return (
     <MainLayout>
-      {data === null ? (
+      {listPosts === null ? (
         <p className="font-bold text-xl text-center w-full text-info">
           Loading latest posts...
         </p>
       ) : (
-        <LayoutPosts data={data} />
+        <LayoutPosts data={listPosts} />
       )}
     </MainLayout>
   )

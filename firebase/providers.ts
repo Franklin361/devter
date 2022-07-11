@@ -59,6 +59,7 @@ export const logoutFirebase = async () => await FirebaseAuth.signOut()
 interface PropsAddPost extends Pick<User, 'displayName' | 'photoURL'> {
   content: string
   img?: string
+  userId: string
 }
 
 interface Post extends Record<string, any> {
@@ -98,6 +99,7 @@ const mapDocs = (docs: QueryDocumentSnapshot<DocumentData>[]) => {
       | 'photoURL'
       | 'sharedCount'
       | 'img'
+      | 'userId'
     >
 
     const normalizedCreatedAt = +(
