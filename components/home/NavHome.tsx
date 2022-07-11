@@ -1,4 +1,4 @@
-import { BsHouseDoor, BsPencilSquare, BsSearch } from 'react-icons/bs'
+import { BsHouseDoor, BsPencilSquare } from 'react-icons/bs'
 import { useRouter } from 'next/router'
 
 export const NavHome = () => {
@@ -12,12 +12,12 @@ export const NavHome = () => {
       >
         <BsHouseDoor className="text-2xl" />
       </p>
-      <p
+      {/* <p
         onClick={() => handleGo('/search')}
         className="hover:text-info active:scale-90 cursor-pointer py-4 flex-1 flex justify-center items-center"
       >
         <BsSearch className="text-2xl" />
-      </p>
+      </p> */}
       <p
         onClick={() => handleGo('/compose/post')}
         className="hover:text-info active:scale-90 cursor-pointer py-4 flex-1 flex justify-center items-center"
