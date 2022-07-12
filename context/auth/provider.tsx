@@ -23,13 +23,18 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     await singInWithGithub()
   }
 
+  const handleLogOut = async () => {
+    dispatch({ type: 'logout' })
+  }
+
   if (user.status === 'checking') return <Loading />
 
   return (
     <AuthContext.Provider
       value={{
         ...user,
-        handleLogin
+        handleLogin,
+        handleLogOut
       }}
     >
       {children}

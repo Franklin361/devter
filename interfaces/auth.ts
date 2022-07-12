@@ -14,6 +14,7 @@ export interface AuthState {
 
 export type AuthStateContext = {
   handleLogin: () => void
+  handleLogOut: () => void
 } & AuthState
 
 export type TypeAction =
