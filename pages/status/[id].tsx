@@ -65,7 +65,7 @@ export async function getStaticPaths() {
 }
 
 // TODO: change to getStaticProps and getStaticPaths
-export async function getStaticProps(context: any) {
+export async function getServerSideProps(context: any) {
   const host =
     process.env.NODE_ENV === 'production'
       ? 'https://devter.vercel.app'
@@ -74,7 +74,6 @@ export async function getStaticProps(context: any) {
   const data = await res.json()
 
   return {
-    props: { ...data },
-    revalidate: 10 // will be passed to the page component as props
+    props: { ...data } // will be passed to the page component as props
   }
 }
