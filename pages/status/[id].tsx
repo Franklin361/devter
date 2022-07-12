@@ -2,15 +2,12 @@ import { NextPage } from 'next'
 import { DevPost } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { MainLayout } from '../../layout'
-import { usePostStore } from '../../store'
+// import { usePostStore } from '../../store'
+import { PostResponse } from '../../interfaces'
 
-export const SinglePostPage: NextPage<{ name: string }> = ({
-  name
-}: {
-  name: string
-}) => {
+export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
   const { handleGoLogin, isAuth } = useAuthenticated()
-  const post = usePostStore(state => state.postSelected)
+  // const post = usePostStore(state => state.postSelected)
 
   if (!isAuth) {
     handleGoLogin()
@@ -19,7 +16,6 @@ export const SinglePostPage: NextPage<{ name: string }> = ({
 
   return (
     <MainLayout>
-      <h1>Hello: {name}</h1>
       {post ? (
         <DevPost
           content={post.content}
@@ -42,12 +38,12 @@ export const SinglePostPage: NextPage<{ name: string }> = ({
 
 export default SinglePostPage
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: any) {
   const host =
     process.env.NODE_ENV === 'production'
       ? 'https://devter.vercel.app'
       : 'http://localhost:3000'
-  const res = await fetch(`${host}/api/post`)
+  const res = await fetch(`${host}/api/post/${context.query.id}`)
   const data = await res.json()
 
   return {
