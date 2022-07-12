@@ -1,0 +1,5 @@
+export * from './FormAddPost'
+export * from './ButtonsForm'
+export * from './InputsForm'
+export * from './ImagePreview'
+export * from './InputFile'

@@ -10,7 +10,7 @@ const AddPostPage: NextPage = () => {
     return null
   }
   return (
-    <MainLayout titleNav="Create Post">
+    <MainLayout titleNav="Create Post" title="Devter | Create Post">
       <FormAddPost />
     </MainLayout>
   )

@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 import shallow from 'zustand/shallow'
 import { Unsubscribe } from 'firebase/firestore'
 
-import { LayoutPosts } from '../../components'
+import { LayoutPosts, LayoutPostSkeleton } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { MainLayout } from '../../layout'
 
@@ -33,9 +33,7 @@ const HomePage: NextPage = () => {
   return (
     <MainLayout>
       {listPosts === null ? (
-        <p className="font-bold text-xl text-center w-full text-info">
-          Loading latest posts...
-        </p>
+        <LayoutPostSkeleton />
       ) : (
         <LayoutPosts data={listPosts} />
       )}
