@@ -9,7 +9,7 @@ export const ContentPost = ({
       <p className="font-normal w-full">{content}</p>
       {img && (
         <img
-          className="w-full rounded-md border border-neutral-content/50"
+          className="w-full rounded-md border border-neutral-content/50 fadeIn"
           src={img}
           alt={content}
         />

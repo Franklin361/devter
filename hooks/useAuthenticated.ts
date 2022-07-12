@@ -12,5 +12,5 @@ export const useAuthenticated = () => {
 
   const isAuth = useMemo(() => status === 'authenticated', [status])
 
-  return { isAuth, handleGoHome, handleGoLogin }
+  return { isAuth, handleGoHome, handleGoLogin, isFallback: router.isFallback }
 }

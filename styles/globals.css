@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 @import url('./spinner.css');
+@import url('./animations.css');
 
 @tailwind base;
 @tailwind components;
@@ -36,4 +37,10 @@ body {
 
 .main::-webkit-scrollbar{
   width: 0;
+}
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+.fadeIn{
+  animation: fadeIn 1s ease-in-out;
 }

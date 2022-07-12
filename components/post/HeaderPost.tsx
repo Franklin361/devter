@@ -1,8 +1,11 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+
 import { useAuthContext } from '../../hooks'
 import { PostResponse } from '../../interfaces'
 import { deletePost } from '../../firebase'
-import { useRouter } from 'next/router'
 import { usePostStore } from '../../store'
+import { LoadingPost } from '..'
 
 interface Props
   extends Pick<
@@ -22,11 +25,16 @@ export const HeaderPost = ({
 }: Props) => {
   const { user } = useAuthContext()
   const router = useRouter()
+
+  const [loading, setLoading] = useState(false)
+
   const deletePostById = usePostStore(state => state.deletePostById)
 
   const handleDelete = async () => {
-    // TODO: add loading while deleting post
+    // TODO: add Loading while deleting post
+    setLoading(true)
     const isDeleted = await deletePost(id, fileName)
+    setLoading(false)
     if (isDeleted) {
       deletePostById(id)
       router.replace('/home')
@@ -34,18 +42,26 @@ export const HeaderPost = ({
   }
 
   return (
-    <header className="flex justify-between items-center">
-      <div className="flex items-center gap-5">
-        <img src={photoURL} alt="profile" width={35} className="rounded-full" />
-        <h5 className="font-bold ">{displayName}</h5>
-      </div>
-      {user!.uid === userId && completePost && (
-        <div>
-          <button className="btn btn-primary btn-sm" onClick={handleDelete}>
-            Delete
-          </button>
+    <>
+      <header className="flex justify-between items-center">
+        <div className="flex items-center gap-5">
+          <img
+            src={photoURL}
+            alt="profile"
+            width={35}
+            className="rounded-full"
+          />
+          <h5 className="font-bold ">{displayName}</h5>
         </div>
-      )}
-    </header>
+        {user!.uid === userId && completePost && (
+          <div>
+            <button className="btn btn-primary btn-sm" onClick={handleDelete}>
+              Delete
+            </button>
+          </div>
+        )}
+      </header>
+      {loading && <LoadingPost label="Deleting post ..." />}
+    </>
   )
 }
