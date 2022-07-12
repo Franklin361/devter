@@ -19,6 +19,7 @@ export const LayoutPosts = ({ data }: { data: PostResponse[] }) => {
             sharedCount={post.sharedCount}
             photoURL={post.photoURL}
             img={post.img}
+            fileName={post.fileName}
             userId={post.userId}
           />
         ))

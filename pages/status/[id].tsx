@@ -26,6 +26,7 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
           photoURL={post.photoURL}
           sharedCount={post.sharedCount}
           img={post.img}
+          fileName={post.fileName}
           userId={post.userId}
           completePost
         />
@@ -35,9 +36,9 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
     </MainLayout>
   )
 }
-
 export default SinglePostPage
 
+// TODO: change to getStaticProps and getStaticPaths
 export async function getServerSideProps(context: any) {
   const host =
     process.env.NODE_ENV === 'production'

@@ -35,6 +35,8 @@ export const DevPost = ({ completePost = false, ...post }: Props) => {
       } border border-gray-500 p-5 rounded-md bg-black/70 max-w-xl mx-auto w-full mb-10 shadow-2xl shadow-black`}
     >
       <HeaderPost
+        fileName={post.fileName}
+        id={post.id}
         displayName={post.displayName}
         photoURL={post.photoURL}
         userId={post.userId}

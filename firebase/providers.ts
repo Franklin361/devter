@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth'
 import {
   collection,
+  deleteDoc,
   doc,
   DocumentData,
   getDocs,
@@ -16,7 +17,12 @@ import {
   Timestamp
 } from 'firebase/firestore/lite'
 import { onSnapshot } from 'firebase/firestore'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes
+} from 'firebase/storage'
 import { FirebaseAuth, FirebaseDB, FirebaseStorage } from './'
 import { PostResponse, TypeAction, User } from '../interfaces'
 
@@ -59,6 +65,7 @@ export const logoutFirebase = async () => await FirebaseAuth.signOut()
 interface PropsAddPost extends Pick<User, 'displayName' | 'photoURL'> {
   content: string
   img?: string
+  fileName?: string
   userId: string
 }
 
@@ -139,12 +146,30 @@ export const uploadImage = async (file: File) => {
     const image = await getDownloadURL(storageRef)
     return {
       ok: true,
-      image
+      image,
+      fileName: file.name
     }
   } catch (error) {
     console.log(error)
     return {
       ok: false
     }
+  }
+}
+
+export const deletePost = async (postId: string, fileName?: string) => {
+  try {
+    const docRef = doc(FirebaseDB, `posts/${postId}`)
+    if (fileName) {
+      const imgRef = ref(FirebaseStorage, `images/${fileName}`)
+      await deleteObject(imgRef)
+      await deleteDoc(docRef)
+    } else {
+      await deleteDoc(docRef)
+    }
+    return true
+  } catch (error) {
+    console.log(error)
+    return false
   }
 }

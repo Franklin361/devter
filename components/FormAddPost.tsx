@@ -41,7 +41,8 @@ export const FormAddPost = () => {
       displayName: user?.displayName!,
       photoURL: user?.photoURL!,
       userId: user?.uid!,
-      ...(fileObj ? { img: imageURL } : {})
+      ...(fileObj ? { img: imageURL } : {}),
+      ...(fileObj ? { fileName: fileObj.name } : {})
     })
 
     setloading(() => false)

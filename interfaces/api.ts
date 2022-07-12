@@ -15,5 +15,6 @@ export interface PostResponse {
   sharedCount: number
   createdAt: number
   img?: string
+  fileName?: string
   userId: string
 }

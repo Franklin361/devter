@@ -1,9 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-// export default function handler(req: NextApiRequest, res: NextApiResponse) {
-//   res.status(200).json({ name: 'John Doe' })
-// }
-
 import admin from 'firebase-admin'
 
 try {
@@ -21,7 +17,7 @@ try {
 export default async (request: NextApiRequest, response: NextApiResponse) => {
   const FirestoreAdmin = admin.firestore()
   const { id } = request.query as { id: string }
-  console.log({ id })
+
   try {
     const doc = await FirestoreAdmin.collection('posts').doc(`${id}`).get()
     const data = doc.data()
@@ -31,7 +27,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
 
     response.status(200).json({
       ...data,
-      id: 'cerro',
+      id: doc.id,
       createdAt: +createdAt.toDate()
     })
   } catch (error) {
