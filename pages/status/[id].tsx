@@ -4,7 +4,11 @@ import { useAuthenticated } from '../../hooks'
 import { MainLayout } from '../../layout'
 import { usePostStore } from '../../store'
 
-export const SinglePostPage: NextPage = () => {
+export const SinglePostPage: NextPage<{ name: string }> = ({
+  name
+}: {
+  name: string
+}) => {
   const { handleGoLogin, isAuth } = useAuthenticated()
   const post = usePostStore(state => state.postSelected)
 
@@ -15,6 +19,7 @@ export const SinglePostPage: NextPage = () => {
 
   return (
     <MainLayout>
+      <h1>Hello: {name}</h1>
       {post ? (
         <DevPost
           content={post.content}
@@ -36,3 +41,16 @@ export const SinglePostPage: NextPage = () => {
 }
 
 export default SinglePostPage
+
+export async function getServerSideProps() {
+  const host =
+    process.env.NODE_ENV === 'production'
+      ? 'https://devter.vercel.app'
+      : 'http://localhost:3000'
+  const res = await fetch(`${host}/api/post`)
+  const data = await res.json()
+
+  return {
+    props: { ...data } // will be passed to the page component as props
+  }
+}
