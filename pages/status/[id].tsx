@@ -74,6 +74,7 @@ export async function getStaticProps(context: any) {
   const data = await res.json()
 
   return {
-    props: { ...data } // will be passed to the page component as props
+    props: { ...data },
+    revalidate: 10 // will be passed to the page component as props
   }
 }
