@@ -7,7 +7,7 @@ import { PostResponse } from '../../interfaces'
 import { useEffect } from 'react'
 
 export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
-  const { handleGoLogin, isAuth, isFallback } = useAuthenticated()
+  const { handleGoLogin, isAuth } = useAuthenticated()
   const selectPost = usePostStore(state => state.selectPost)
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
   }
 
   // TODO: create Skeleton
-  if (isFallback || !post.content) {
+  if (!post.content) {
     return (
       <MainLayout title="Devter | Post" titleNav="Devter">
         <PostSkeleton />
@@ -56,13 +56,6 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
   )
 }
 export default SinglePostPage
-
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true
-  }
-}
 
 // TODO: change to getStaticProps and getStaticPaths
 export async function getServerSideProps(context: any) {
