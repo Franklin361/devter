@@ -11,7 +11,7 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
   const selectPost = usePostStore(state => state.selectPost)
 
   useEffect(() => {
-    if (post) selectPost(post)
+    if (post.content) selectPost(post)
   }, [post])
 
   if (!isAuth) {
@@ -20,7 +20,7 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
   }
 
   // TODO: create Skeleton
-  if (isFallback) {
+  if (isFallback || !post.content) {
     return (
       <MainLayout title="Devter | Post" titleNav="Devter">
         <PostSkeleton />
@@ -41,9 +41,9 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
           createdAt={post.createdAt}
           displayName={post.displayName}
           id={post.id}
-          likesCount={post.likesCount}
+          likes={post.likes}
           photoURL={post.photoURL}
-          sharedCount={post.sharedCount}
+          shared={post.shared}
           img={post.img}
           fileName={post.fileName}
           userId={post.userId}

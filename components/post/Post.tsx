@@ -44,12 +44,7 @@ export const DevPost = ({ completePost = false, ...post }: Props) => {
       />
       <ContentPost content={contentRed()} img={post.img} />
       <CreatedAtPost createdAt={post.createdAt} />
-      {completePost && (
-        <FooterPost
-          likesCount={post.likesCount}
-          sharedCount={post.sharedCount}
-        />
-      )}
+      {completePost && <FooterPost />}
     </div>
   )
 }

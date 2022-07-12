@@ -15,8 +15,8 @@ export const LayoutPosts = ({ data }: { data: PostResponse[] }) => {
             createdAt={post.createdAt}
             displayName={post.displayName}
             id={post.id}
-            likesCount={post.likesCount}
-            sharedCount={post.sharedCount}
+            likes={post.likes}
+            shared={post.shared}
             photoURL={post.photoURL}
             img={post.img}
             fileName={post.fileName}

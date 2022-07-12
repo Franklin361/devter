@@ -71,8 +71,8 @@ interface PropsAddPost extends Pick<User, 'displayName' | 'photoURL'> {
 
 interface Post extends Record<string, any> {
   content: string
-  likesCount: number
-  sharedCount: number
+  likes: string[]
+  shared: string[]
   createdAt: Timestamp
 }
 
@@ -81,8 +81,8 @@ export const addPost = async ({ content, ...user }: PropsAddPost) => {
     const newPost: Post = {
       ...user,
       content,
-      likesCount: 0,
-      sharedCount: 0,
+      likes: [],
+      shared: [],
       createdAt: Timestamp.fromDate(new Date())
     }
     const newDoc = doc(collection(FirebaseDB, 'posts'))
@@ -102,9 +102,9 @@ const mapDocs = (docs: QueryDocumentSnapshot<DocumentData>[]) => {
       PostResponse,
       | 'content'
       | 'displayName'
-      | 'likesCount'
+      | 'likes'
       | 'photoURL'
-      | 'sharedCount'
+      | 'shared'
       | 'img'
       | 'userId'
     >
@@ -172,4 +172,25 @@ export const deletePost = async (postId: string, fileName?: string) => {
     console.log(error)
     return false
   }
+}
+
+interface UpdateProps {
+  post: PostResponse
+  callback: (post: PostResponse) => void
+}
+
+export const updatePostLikeOrShare = async ({
+  post,
+  callback
+}: UpdateProps) => {
+  // console.log(post)
+  delete (post as any).createdAt
+  const docRef = doc(FirebaseDB, `posts/${post.id}`)
+
+  await setDoc(docRef, post, { merge: true })
+
+  onSnapshot(docRef, doc => {
+    const data = doc.data() as PostResponse
+    if (doc.exists()) callback(data)
+  })
 }

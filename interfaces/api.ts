@@ -11,8 +11,8 @@ export interface PostResponse {
   photoURL: string
   displayName: string
   content: string
-  likesCount: number
-  sharedCount: number
+  likes: string[]
+  shared: string[]
   createdAt: number
   img?: string
   fileName?: string
