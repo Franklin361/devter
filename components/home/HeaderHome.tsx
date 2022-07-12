@@ -6,9 +6,12 @@ const avatar =
   'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
 
 export const HeaderHome = ({ title }: { title: string }) => {
-  const { user } = useAuthContext()
+  const { user, handleLogOut } = useAuthContext()
 
-  const handleLogout = () => logoutFirebase()
+  const handleLogout = () => {
+    logoutFirebase()
+    handleLogOut()
+  }
 
   return (
     <header className="z-10 sticky top-0 bg-neutral shadow-xl shadow-black/40 p-5 flex items-center justify-between md:gap-0 gap-5  sm:flex-row flex-col max-w-4xl">
