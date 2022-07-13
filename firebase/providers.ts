@@ -9,7 +9,7 @@ import {
   deleteDoc,
   doc,
   DocumentData,
-  getDocs,
+  limit,
   orderBy,
   query,
   QueryDocumentSnapshot,
@@ -113,18 +113,14 @@ const mapDocs = (docs: QueryDocumentSnapshot<DocumentData>[]) => {
   })
 }
 
-export const getPosts = async () => {
-  const q = query(collection(FirebaseDB, 'posts'), orderBy('createdAt', 'desc'))
-
-  const { docs } = await getDocs(q)
-
-  return mapDocs(docs)
-}
-
 export const listenLatestPosts = (
   callback: (posts: PostResponse[]) => void
 ) => {
-  const q = query(collection(FirebaseDB, 'posts'), orderBy('createdAt', 'desc'))
+  const q = query(
+    collection(FirebaseDB, 'posts'),
+    orderBy('createdAt', 'desc'),
+    limit(15)
+  )
   return onSnapshot(q, ({ docs }) => {
     const posts = mapDocs(docs)
     callback(posts)

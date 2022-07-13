@@ -16,7 +16,6 @@ const HomePage: NextPage = () => {
   useEffect(() => {
     let unsubscribe: Unsubscribe
     if (isAuth) {
-      console.log('first')
       unsubscribe = listenLatestPosts(addListPosts)
     }
     return () => {

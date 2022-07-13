@@ -48,3 +48,10 @@ body {
 .fadeInUp {
   animation: fadeInUp 1s ease-in-out;
 }
+
+.bounce {
+  transform-origin: center bottom;
+  animation: bounce 1s linear;
+  animation-delay: 2s;
+  animation-iteration-count: 2;
+}

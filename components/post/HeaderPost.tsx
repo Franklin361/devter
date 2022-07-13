@@ -28,7 +28,7 @@ export const HeaderPost = ({
             src={photoURL}
             alt="profile"
             width={35}
-            className="rounded-full"
+            className={`rounded-full ${completePost ? 'bounce' : ''}`}
           />
           <h5 className="font-bold ">{displayName}</h5>
         </div>

@@ -16,7 +16,6 @@ export const useLoadingRoute = () => {
   }, [])
 
   useEffect(() => {
-    console.log(router.asPath)
     const handleStart = (url: string) =>
       url !== router.asPath && setLoading(true)
 
