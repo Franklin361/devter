@@ -72,7 +72,6 @@ interface PropsAddPost extends Pick<User, 'displayName' | 'photoURL'> {
 interface Post extends Record<string, any> {
   content: string
   likes: string[]
-  shared: string[]
   createdAt: Timestamp
 }
 
@@ -82,7 +81,6 @@ export const addPost = async ({ content, ...user }: PropsAddPost) => {
       ...user,
       content,
       likes: [],
-      shared: [],
       createdAt: Timestamp.fromDate(new Date())
     }
     const newDoc = doc(collection(FirebaseDB, 'posts'))
@@ -100,13 +98,7 @@ const mapDocs = (docs: QueryDocumentSnapshot<DocumentData>[]) => {
   return docs.map(doc => {
     const data = doc.data() as Pick<
       PostResponse,
-      | 'content'
-      | 'displayName'
-      | 'likes'
-      | 'photoURL'
-      | 'shared'
-      | 'img'
-      | 'userId'
+      'content' | 'displayName' | 'likes' | 'photoURL' | 'img' | 'userId'
     >
 
     const normalizedCreatedAt = +(

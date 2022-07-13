@@ -1,7 +1,6 @@
 import { useFormPost } from '../../hooks'
 import { LoadingPost, ButtonsForm, InputsForm } from '..'
 
-// TODO: REFACTOR COMPONENT
 export const FormAddPost = () => {
   const { inputFileRef, fileObj, drag, loading, form, ...event } = useFormPost()
 

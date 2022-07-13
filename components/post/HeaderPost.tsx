@@ -1,10 +1,5 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
-
-import { useAuthContext } from '../../hooks'
+import { useDeletePost } from '../../hooks'
 import { PostResponse } from '../../interfaces'
-import { deletePost } from '../../firebase'
-import { usePostStore } from '../../store'
 import { LoadingPost } from '..'
 
 interface Props
@@ -21,25 +16,9 @@ export const HeaderPost = ({
   userId,
   completePost = false,
   id,
-  fileName
+  fileName = ''
 }: Props) => {
-  const { user } = useAuthContext()
-  const router = useRouter()
-
-  const [loading, setLoading] = useState(false)
-
-  const deletePostById = usePostStore(state => state.deletePostById)
-
-  const handleDelete = async () => {
-    // TODO: add Loading while deleting post
-    setLoading(true)
-    const isDeleted = await deletePost(id, fileName)
-    setLoading(false)
-    if (isDeleted) {
-      deletePostById(id)
-      router.replace('/home')
-    }
-  }
+  const { handleDelete, loading, user } = useDeletePost({ id, fileName })
 
   return (
     <>

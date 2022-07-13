@@ -1,8 +1,10 @@
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { BsHeart, BsShare, BsSuitHeartFill } from 'react-icons/bs'
 import { useState, useEffect } from 'react'
 import { usePostStore } from '../../store'
 import { updatePostLikeOrShare } from '../../firebase'
 import { useAuthContext } from '../../hooks'
+import { showToast } from '../../utils'
 
 export const FooterPost = () => {
   const postSelected = usePostStore(state => state.postSelected)
@@ -34,9 +36,7 @@ export const FooterPost = () => {
     })
   }
 
-  const handleShare = () => {
-    // setIsShared(prev => !prev)
-  }
+  const handleShare = () => showToast({ msg: 'Link copied to the clipboard' })
 
   return (
     <footer className="flex justify-around items-center border-t border-gray-700 pt-5">
@@ -53,17 +53,14 @@ export const FooterPost = () => {
           {postSelected?.likes && postSelected.likes.length}
         </span>
       </p>
-      <p
-        className="flex items-center gap-5 cursor-pointer hover:text-warning"
-        onClick={handleShare}
+      <CopyToClipboard
+        text={`https://devter.vercel.app/status/${postSelected?.id}`}
+        onCopy={handleShare}
       >
-        <BsShare className="text-xl" />
-        {/* <BsShareFill className="text-xl text-warning" /> */}
-
-        {/* <span className={`text-xl ${isShared ? 'text-warning' : ''}`}>
-          {shared.length}
-        </span> */}
-      </p>
+        <p className="flex items-center gap-5 cursor-pointer hover:text-warning">
+          <BsShare className="text-xl" />
+        </p>
+      </CopyToClipboard>
     </footer>
   )
 }

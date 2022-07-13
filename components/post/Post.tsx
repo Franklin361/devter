@@ -32,7 +32,7 @@ export const DevPost = ({ completePost = false, ...post }: Props) => {
       onClick={handleSelectPost}
       className={`${
         completePost ? 'cursor-auto ' : 'cursor-pointer'
-      } border border-gray-500 p-5 rounded-md bg-black/70 max-w-xl mx-auto w-full mb-10 shadow-2xl shadow-black`}
+      } fadeIn border border-gray-500 p-5 rounded-md bg-black/70 max-w-xl mx-auto w-full mb-10 shadow-2xl shadow-black`}
     >
       <HeaderPost
         fileName={post.fileName}
@@ -42,7 +42,11 @@ export const DevPost = ({ completePost = false, ...post }: Props) => {
         userId={post.userId}
         completePost={completePost}
       />
-      <ContentPost content={contentRed()} img={post.img} />
+      <ContentPost
+        content={contentRed()}
+        img={post.img}
+        completePost={completePost}
+      />
       <CreatedAtPost createdAt={post.createdAt} />
       {completePost && <FooterPost />}
     </div>

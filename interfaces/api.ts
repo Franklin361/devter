@@ -12,7 +12,6 @@ export interface PostResponse {
   displayName: string
   content: string
   likes: string[]
-  shared: string[]
   createdAt: number
   img?: string
   fileName?: string

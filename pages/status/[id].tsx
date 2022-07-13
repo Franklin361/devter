@@ -1,13 +1,14 @@
 import { NextPage } from 'next'
-import { DevPost, PostSkeleton } from '../../components'
+import { DevPost } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { MainLayout } from '../../layout'
 import { usePostStore } from '../../store'
 import { PostResponse } from '../../interfaces'
 import { useEffect } from 'react'
+import { showToast } from '../../utils'
 
 export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
-  const { handleGoLogin, isAuth } = useAuthenticated()
+  const { handleGoLogin, isAuth, handleGoHome } = useAuthenticated()
   const selectPost = usePostStore(state => state.selectPost)
 
   useEffect(() => {
@@ -19,13 +20,13 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
     return null
   }
 
-  // TODO: create Skeleton
   if (!post.content) {
-    return (
-      <MainLayout title="Devter | Post" titleNav="Devter">
-        <PostSkeleton />
-      </MainLayout>
-    )
+    handleGoHome()
+    showToast({
+      msg: "This publication doesn't exist, it's probably been deleted 😞",
+      typeToast: 'error'
+    })
+    return null
   }
 
   return (
@@ -43,7 +44,6 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
           id={post.id}
           likes={post.likes}
           photoURL={post.photoURL}
-          shared={post.shared}
           img={post.img}
           fileName={post.fileName}
           userId={post.userId}
@@ -57,7 +57,6 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
 }
 export default SinglePostPage
 
-// TODO: change to getStaticProps and getStaticPaths
 export async function getServerSideProps(context: any) {
   const host =
     process.env.NODE_ENV === 'production'
@@ -65,7 +64,6 @@ export async function getServerSideProps(context: any) {
       : 'http://localhost:3000'
   const res = await fetch(`${host}/api/post/${context.params.id}`)
   const data = await res.json()
-
   return {
     props: { ...data } // will be passed to the page component as props
   }

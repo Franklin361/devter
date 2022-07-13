@@ -11,7 +11,11 @@ const initalState: AuthState = {
 
 export const AuthContext = createContext({} as AuthStateContext)
 
-export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+export const AuthProvider = ({
+  children
+}: {
+  children: JSX.Element | JSX.Element[]
+}) => {
   const [user, dispatch] = useReducer(authReducer, initalState)
 
   useEffect(() => {

@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { NextPage } from 'next'
-import shallow from 'zustand/shallow'
 import { Unsubscribe } from 'firebase/firestore'
 
-import { LayoutPosts, LayoutPostSkeleton } from '../../components'
+import { LayoutPosts } from '../../components'
 import { useAuthenticated } from '../../hooks'
 import { MainLayout } from '../../layout'
 
@@ -12,14 +11,14 @@ import { usePostStore } from '../../store'
 
 const HomePage: NextPage = () => {
   const { handleGoLogin, isAuth } = useAuthenticated()
-  const { listPosts, addListPosts } = usePostStore(
-    ({ listPosts, addListPosts }) => ({ listPosts, addListPosts }),
-    shallow
-  )
+  const addListPosts = usePostStore(state => state.addListPosts)
 
   useEffect(() => {
     let unsubscribe: Unsubscribe
-    if (isAuth) unsubscribe = listenLatestPosts(addListPosts)
+    if (isAuth) {
+      console.log('first')
+      unsubscribe = listenLatestPosts(addListPosts)
+    }
     return () => {
       unsubscribe && unsubscribe()
     }
@@ -32,11 +31,7 @@ const HomePage: NextPage = () => {
 
   return (
     <MainLayout>
-      {listPosts === null ? (
-        <LayoutPostSkeleton />
-      ) : (
-        <LayoutPosts data={listPosts} />
-      )}
+      <LayoutPosts />
     </MainLayout>
   )
 }

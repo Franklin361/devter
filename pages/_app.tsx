@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { AuthProvider } from '../context'
 
 import '../styles/globals.css'
+import { Toaster } from 'react-hot-toast'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -21,6 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <AuthProvider>
         <Component {...pageProps} />
+        <Toaster />
       </AuthProvider>
     </>
   )

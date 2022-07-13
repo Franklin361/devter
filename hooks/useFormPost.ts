@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useDragAndDrop, useAuthContext } from './'
 import { addPost, uploadImage } from '../firebase'
+import { showToast } from '../utils'
 
 type TextAreaEvent = React.ChangeEvent<HTMLTextAreaElement>
 type FormEvent = React.FormEvent<HTMLFormElement>
@@ -47,6 +48,7 @@ export const useFormPost = () => {
     setloading(() => false)
 
     if (isSuccessImageUploaded && res) {
+      showToast({ msg: 'Post successfully created!' })
       router.push('/home')
     }
   }
