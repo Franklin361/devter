@@ -2,7 +2,7 @@ import { createContext, useReducer, useEffect } from 'react'
 import { Loading } from '../../components'
 import { onAuthStateHasChanged, singInWithGithub } from '../../firebase'
 import { authReducer } from './'
-import { AuthState, AuthStateContext } from '../../interfaces'
+import { AuthState, AuthStateContext, User } from '../../interfaces'
 
 const initalState: AuthState = {
   user: null,
@@ -24,7 +24,9 @@ export const AuthProvider = ({
 
   const handleLogin = async () => {
     dispatch({ type: 'checking' })
-    await singInWithGithub()
+    const { ok, ...rest } = await singInWithGithub()
+    if (ok) dispatch({ type: 'login', payload: { ...(rest as User) } })
+    else dispatch({ type: 'logout' })
   }
 
   const handleLogOut = async () => {

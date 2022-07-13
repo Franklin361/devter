@@ -25,6 +25,7 @@ import {
 } from 'firebase/storage'
 import { FirebaseAuth, FirebaseDB, FirebaseStorage } from './'
 import { PostResponse, TypeAction, User } from '../interfaces'
+import { showToast } from '../utils'
 
 const githubProvider = new GithubAuthProvider()
 
@@ -40,7 +41,10 @@ export const singInWithGithub = async () => {
       uid
     }
   } catch (e) {
-    console.log(e)
+    const err = e as Error
+    if (err.message.includes('closed')) {
+      showToast({ msg: 'Authentication canceled', typeToast: 'error' })
+    }
     return { ok: false }
   }
 }
