@@ -7,7 +7,7 @@ export const CreatedAtPost = ({
   const timeAgo = useTimeAgo(createdAt)
 
   return (
-    <span className="text-secondary-focus text-sm font-bold text-end block w-full">
+    <span className="text-secondary-focus text-sm font-bold text-end block w-full select-none">
       {timeAgo}
     </span>
   )

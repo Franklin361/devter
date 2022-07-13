@@ -49,7 +49,7 @@ export const FooterPost = () => {
         ) : (
           <BsHeart className="text-xl" />
         )}
-        <span className={`text-xl ${isLiked ? 'text-info' : ''}`}>
+        <span className={`text-xl select-none ${isLiked ? 'text-info' : ''}`}>
           {postSelected?.likes && postSelected.likes.length}
         </span>
       </p>

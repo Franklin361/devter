@@ -30,7 +30,7 @@ export const HeaderPost = ({
             width={35}
             className={`rounded-full ${completePost ? 'bounce' : ''}`}
           />
-          <h5 className="font-bold ">{displayName}</h5>
+          <h5 className="font-bold select-none">{displayName}</h5>
         </div>
         {user!.uid === userId && completePost && (
           <div>
