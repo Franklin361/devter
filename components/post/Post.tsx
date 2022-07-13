@@ -42,11 +42,7 @@ export const DevPost = ({ completePost = false, ...post }: Props) => {
         userId={post.userId}
         completePost={completePost}
       />
-      <ContentPost
-        content={contentRed()}
-        img={post.img}
-        completePost={completePost}
-      />
+      <ContentPost content={contentRed()} img={post.img} />
       <CreatedAtPost createdAt={post.createdAt} />
       {completePost && <FooterPost />}
     </div>

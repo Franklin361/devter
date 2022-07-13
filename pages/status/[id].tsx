@@ -1,14 +1,15 @@
+import { useEffect } from 'react'
 import { NextPage } from 'next'
-import { DevPost } from '../../components'
-import { useAuthenticated } from '../../hooks'
+import { DevPost, Spinner } from '../../components'
+import { useAuthenticated, useLoadingRoute } from '../../hooks'
 import { MainLayout } from '../../layout'
 import { usePostStore } from '../../store'
 import { PostResponse } from '../../interfaces'
-import { useEffect } from 'react'
 import { showToast } from '../../utils'
 
 export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
   const { handleGoLogin, isAuth, handleGoHome } = useAuthenticated()
+  const isLoadingRoute = useLoadingRoute()
   const selectPost = usePostStore(state => state.selectPost)
 
   useEffect(() => {
@@ -27,6 +28,16 @@ export const SinglePostPage: NextPage<PostResponse> = ({ ...post }) => {
       typeToast: 'error'
     })
     return null
+  }
+
+  if (isLoadingRoute) {
+    return (
+      <MainLayout titleNav="Devter" title="Devter | ">
+        <div className="flex justify-center items-center">
+          <Spinner />
+        </div>
+      </MainLayout>
+    )
   }
 
   return (

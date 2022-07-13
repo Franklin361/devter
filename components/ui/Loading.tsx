@@ -6,3 +6,7 @@ export const Loading = () => {
     </div>
   )
 }
+
+export const Spinner = () => {
+  return <div className="spinner w-[50px] h-[50px] after:bg-[#2A303C]"></div>
+}
