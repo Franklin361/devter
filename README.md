@@ -1,34 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DevTer 🐦
+**Web application to create your posts and share them with the tech community!.**
 
-## Getting Started
+![Demo](https://res.cloudinary.com/dnxchppfm/image/upload/v1658072985/devter/devter_ea8yza.gif)
 
-First, run the development server:
+&nbsp;
 
-```bash
-npm run dev
-# or
-yarn dev
+## Features ⚙️
+---
+1. Log in with GitHub.
+2. List posts.
+3. Create posts.
+4. Add an image to the post.
+5. Delete only own posts.
+6. Like posts.
+7. Copy URL of the post to share it.
+8. Responsive design
+
+&nbsp;
+
+## Main Technologies 🧪
+---
+
+- **Next JS**
+- **TypeScript** 
+- **Firebase** (Auth - Database - Storage - Admin)
+- **Zustand** (State management)
+- **DaisyUI** (component library)
+- **Vercel** (to deploy the app)
+
+&nbsp;
+
+
+## **Installation 🧰**
+---
+
+1. Clone the repository (you need to have [Git](https://git-scm.com) installed).
+
+```shell
+    git clone https://github.com/Franklin361/devter.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2.  Install dependencies of the project.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```shell
+    npm install
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+3. Before running the development server, you need to...
+    - Create a project in firebase and get credentials.
+    - Create an `.env` file in the root of the project and set the following value and add the connection string from your mongo database 
+    ```
+    NEXT_PUBLIC_APIKEY=
+    NEXT_PUBLIC_AUTHDOMAI=N=
+    NEXT_PUBLIC_PROJECTID=
+    NEXT_PUBLIC_STORAGEBUCKET=
+    NEXT_PUBLIC_MESSA=GINGSENDERID=
+    NEXT_PUBLIC_APPID=
+    NEXT_PUBLIC_APP_DATABASEURL=
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    FIREBASE_ACCOUNT_KEY_PRIVATE_KEY=
+    FIREBASE_ACCOUNT_KEY_CLIENT_EMAIL=
+    FIREBASE_ACCOUNT_KEY_PROJECT_ID=
+    ```
 
-## Learn More
+4. Run the project.
+```shell
+    npm run dev
+```
+&nbsp;
 
-To learn more about Next.js, take a look at the following resources:
+## **Demo ⛓️**
+---
+[https://devter.vercel.app](https://devter.vercel.app/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
