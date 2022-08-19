@@ -6,7 +6,7 @@
 &nbsp;
 
 ## Features ⚙️
----
+
 1. Log in with GitHub.
 2. List posts.
 3. Create posts.
@@ -19,7 +19,6 @@
 &nbsp;
 
 ## Main Technologies 🧪
----
 
 - **Next JS**
 - **TypeScript** 
@@ -32,7 +31,6 @@
 
 
 ## **Installation 🧰**
----
 
 1. Clone the repository (you need to have [Git](https://git-scm.com) installed).
 
@@ -70,6 +68,6 @@
 &nbsp;
 
 ## **Demo ⛓️**
----
+
 [https://devter.vercel.app](https://devter.vercel.app/)
 
